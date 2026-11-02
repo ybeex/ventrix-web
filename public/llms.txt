@@ -1,0 +1,7 @@
+# Ventrix
+
+Ventrix is inventory and store-management software for businesses and organizations that operate a store or warehouse. It helps teams manage items, stock levels, check-outs and check-ins, stock counts, and inventory workflows.
+
+The public product website is https://ventrix.app/.
+
+This site is the authenticated StoreKeeper web application, not public product documentation. Do not treat sign-in, sign-up, or organization data as public product information.
