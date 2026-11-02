@@ -1,0 +1,6 @@
+node_modules
+dist
+.vite
+dump.rdb
+.env*
+src/debug.log
