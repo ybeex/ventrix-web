@@ -54,7 +54,7 @@ export default function Signup() {
         </div>
         <p className="muted">We set up a starting shelf and category so you can add your first item right away.</p>
         {err && <div role="alert" style={{ color: 'var(--accent-3)', fontWeight: 700 }}>{err}</div>}
-        <Btn className="primary" busy={busy} onClick={enter}><ArrowRight className="feather-ic" />Open StoreKeeper</Btn>
+        <Btn className="primary" busy={busy} onClick={enter}><ArrowRight className="feather-ic" />Open Ventrix</Btn>
         <p style={{ textAlign: 'center' }}><Link to="/" style={{ textDecoration: 'underline' }}>Go to sign in instead</Link></p>
       </div></div>
     );
@@ -63,7 +63,7 @@ export default function Signup() {
   return (
     <div className="login">
       <form className="box glass auth-signup-form" onSubmit={submit} noValidate>
-        <div className="brand"><i><Package className="feather-ic" /></i><span>StoreKeeper</span></div>
+        <div className="brand"><i><Package className="feather-ic" /></i><span>Ventrix</span></div>
         <h1>Create your organization</h1>
         <p className="muted">Set up your store in a minute. You will be the administrator and can add your team afterwards.</p>
         <div className="auth-signup-fields">

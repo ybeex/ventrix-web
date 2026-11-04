@@ -1,13 +1,13 @@
-# StoreKeeper web
+# Ventrix web
 
-React + TypeScript + Vite front end for the StoreKeeper API, styled from `StoreKeeper_UI_kit.html` (Concrete and Night palettes).
+React + TypeScript + Vite front end for the Ventrix API, styled from `Ventrix_UI_kit.html` (Concrete and Night palettes).
 
     npm install
     npm run dev        # http://localhost:5173, proxies /v1 to http://localhost:3000 (override with API_PROXY)
     npm run build      # typecheck + production build in dist/
 
 Production: set `VITE_API_URL` to the API origin at build time and add the web origin to the API's `CORS_ORIGINS`.
-Demo login: org `demo-works`, `supervisor@demo-works.test` / `Demo-Works-Password-42` (from `npm run seed:demo` in the API repo).
+Demo login: org `lekki-works-supply`, `supervisor@lekki-works-supply.test` / `Lekki-Works-Demo-42` (from `npm run seed:demo` in the API repo).
 
 Screens: sign-in, home, outstanding, check out (batch), items + item detail, collections, low stock, stock counts (supervisor), approvals, sync problems, activity, notifications bell.
 Offline: items and holders are cached in IndexedDB (delta refresh via /sync/snapshot), so search, scanning, the holder picker, single-item actions and check-out keep working without a connection. Actions are saved on the device and replayed through /sync/batch on reconnect (offline check-out applies line by line, not atomically). The cache is wiped on sign-out.
