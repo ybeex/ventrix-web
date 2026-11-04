@@ -4,4 +4,4 @@ Ventrix is inventory and store-management software for businesses and organizati
 
 The public product website is https://ventrix.app/.
 
-This site is the authenticated StoreKeeper web application, not public product documentation. Do not treat sign-in, sign-up, or organization data as public product information.
+This site is the authenticated Ventrix web application, not public product documentation. Do not treat sign-in, sign-up, or organization data as public product information.

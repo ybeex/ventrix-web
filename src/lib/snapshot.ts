@@ -4,7 +4,7 @@
 import { get } from './api';
 import type { Holder, Item } from './types';
 
-const DB = 'storekeeper-cache-v1';
+const DB = 'ventrix-cache-v1';
 let dbp: Promise<IDBDatabase> | null = null;
 const open = () => (dbp ??= new Promise((res, rej) => {
   const r = indexedDB.open(DB, 1);

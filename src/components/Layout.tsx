@@ -92,7 +92,7 @@ export function Layout() {
   return (
     <div className="shell">
       <aside className="side" aria-label="Main">
-        <div className="orgbox"><i><Package className="feather-ic" /></i><span className="grow"><b>{me?.organization.name ?? 'StoreKeeper'}</b><small>StoreKeeper</small></span></div>
+        <div className="orgbox"><i><Package className="feather-ic" /></i><span className="grow"><b>{me?.organization.name ?? 'Ventrix'}</b><small>Ventrix</small></span></div>
         <nav aria-label="Pages"><List /></nav>
         {hasPinItem && <button className="nv" onClick={() => setPinOpen(true)}><Key className="feather-ic" /><span className="grow">{me?.hasPin ? 'Change my PIN' : 'Set my PIN'}</span></button>}
       </aside>

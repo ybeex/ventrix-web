@@ -1,4 +1,4 @@
-/* StoreKeeper design system — ported from the UI kit (two palettes, one token system). */
+/* Ventrix design system — ported from the UI kit (two palettes, one token system). */
 :root{--bg:#DAD5CA;--bg-elev:#F8F5EE;--bg-elev-2:#EBE6DB;--ink:#1A1814;--ink-muted:#5C5649;--accent:#a60e0e;--accent-ink:#FFFFFF;--accent-2:#FF8A1F;--accent-3:#c21515;--ok:#1F7A3E;--line:rgba(26,24,20,.16);--glass-border:#CFC8B8;--shadow-c:26,24,20;
 --r-lg:22px;--r-md:14px;--r-sm:9px;--display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;--sans:'Public Sans',system-ui,sans-serif;--spring:cubic-bezier(.34,1.56,.64,1)}
 [data-theme=night]{--bg:#0F1117;--bg-elev:#1C202A;--bg-elev-2:#262B37;--ink:#EEF0F4;--ink-muted:#9AA3B2;--accent:#E05252;--accent-ink:#0B1230;--accent-2:#FFB020;--accent-3:#FF6A5C;--ok:#4ADE80;--line:rgba(238,240,244,.16);--glass-border:#363C4A;--shadow-c:0,0,0}

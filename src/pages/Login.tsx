@@ -22,10 +22,10 @@ export default function Login() {
   return (
     <div className="login">
       <form className="box glass auth-login-form" onSubmit={submit}>
-        <div className="brand"><i><Package className="feather-ic" /></i><span>StoreKeeper</span></div>
+        <div className="brand"><i><Package className="feather-ic" /></i><span>Ventrix</span></div>
         <h1>Who has the grinder?</h1>
         {expired && <div className="alert warn glass" role="status"><div><strong>You were signed out</strong><span>Your session ended. Sign in again to continue.</span></div></div>}
-        <Field label="Organization"><input autoComplete="organization" value={f.orgSlug} onChange={(e) => setF({ ...f, orgSlug: e.target.value.trim() })} required placeholder="demo-works" /></Field>
+        <Field label="Organization"><input autoComplete="organization" value={f.orgSlug} onChange={(e) => setF({ ...f, orgSlug: e.target.value.trim() })} required placeholder="lekki-works-supply" /></Field>
         <Field label="Email"><input type="email" autoComplete="username" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} required /></Field>
         <Field label="Password"><input type="password" autoComplete="current-password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} required /></Field>
         <label className="row" style={{ border: 0, minHeight: 44 }}><input type="checkbox" checked={trust} onChange={(e) => setTrust(e.target.checked)} /><span>This is a shared store tablet<br /><span className="muted" style={{ fontSize: 13 }}>Supervisors and admins only. Staff then switch in with a PIN.</span></span></label>
