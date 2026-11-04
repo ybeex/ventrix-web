@@ -7,6 +7,9 @@ React + TypeScript + Vite front end for the Ventrix API, styled from `Ventrix_UI
     npm run build      # typecheck + production build in dist/
 
 Production: set `VITE_API_URL` to the API origin at build time and add the web origin to the API's `CORS_ORIGINS`.
+
+Vercel: `vercel.json` rewrites app routes to `index.html`, so refreshing a React Router URL loads the app instead of Vercel's 404 page. Deploy again after adding or changing the rewrite.
+
 Demo login: org `lekki-works-supply`, `supervisor@lekki-works-supply.test` / `Lekki-Works-Demo-42` (from `npm run seed:demo` in the API repo).
 
 Screens: sign-in, home, outstanding, check out (batch), items + item detail, collections, low stock, stock counts (supervisor), approvals, sync problems, activity, notifications bell.
