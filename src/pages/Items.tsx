@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { Plus } from 'react-feather';
+import { Plus, Tool } from 'react-feather';
 import { useAuth } from '../lib/auth';
 import { AddItemModal } from '../components/AddItem';
 import { get } from '../lib/api';
@@ -10,6 +10,21 @@ import { stateBadge } from '../lib/format';
 import { Badge, Btn, Empty, Skeleton } from '../components/ui';
 import { ItemSearch } from '../components/pickers';
 import { ItemActionModal, type ActionKind } from '../components/ItemActions';
+
+function ItemThumbnail({ item }: { item: Item }) {
+  const photo = useQuery({
+    queryKey: ['file', item.photoFileId],
+    queryFn: () => get<{ url: string }>(`/files/${item.photoFileId}`),
+    enabled: !!item.photoFileId,
+    staleTime: 200_000,
+  });
+
+  return (
+    <span className="items-thumb" aria-hidden="true">
+      {photo.data?.url ? <img src={photo.data.url} alt="" loading="lazy" /> : <Tool className="feather-ic" />}
+    </span>
+  );
+}
 
 export default function Items() {
   const [sp, setSp] = useSearchParams();
@@ -56,7 +71,7 @@ export default function Items() {
         </div>
         <div className="card glass items-table" style={{ padding: 10 }}>
           {qr.isLoading ? <Skeleton rows={6} /> : !rows.length ? <Empty title="No items match" /> : rows.map((i) => { const s = stateBadge(i.type === 'asset' ? i.assetState : null); return (
-            <Link key={i.id} to={`/items/${i.id}`} className="row click"><div className="grow"><b>{i.name}</b> <span className="mono">{i.itemNumber}</span><div className="mono">{i.categoryName}{i.currentHolder ? ` · with ${i.currentHolder.name}` : ''}</div></div>
+            <Link key={i.id} to={`/items/${i.id}`} className="row click"><ItemThumbnail item={i} /><div className="grow"><b>{i.name}</b> <span className="mono">{i.itemNumber}</span><div className="mono">{i.categoryName}{i.currentHolder ? ` · with ${i.currentHolder.name}` : ''}</div></div>
               {i.type === 'asset' ? <Badge cls={s.cls}>{s.label}</Badge> : <Badge cls={i.lowStock ? 'warn' : i.nearMinimum ? 'neu' : 'ok'}>{i.quantityAvailable} {i.unit}</Badge>}</Link>); })}
           {qr.hasNextPage && <div style={{ padding: 12, textAlign: 'center' }}><Btn busy={qr.isFetchingNextPage} onClick={() => qr.fetchNextPage()}>Load more</Btn></div>}
         </div>
