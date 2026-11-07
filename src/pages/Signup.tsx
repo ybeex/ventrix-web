@@ -5,7 +5,6 @@ import { ApiError } from '../lib/api';
 import { useAuth } from '../lib/auth';
 import { Btn, Field } from '../components/ui';
 
-const SITE = (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, '') ?? 'https://ventrix.app';
 const zones = (): string[] => {
   try { const z = (Intl as unknown as { supportedValuesOf?: (k: string) => string[] }).supportedValuesOf?.('timeZone'); if (z?.length) return z; } catch { /* fall through */ }
   return ['Africa/Lagos', 'Africa/Accra', 'Africa/Nairobi', 'Europe/London', 'UTC'];
@@ -74,7 +73,7 @@ export default function Signup() {
         </div>
         <span id="pw-hint" className="muted" style={{ fontSize: 13, marginTop: -8 }}>At least 12 characters. A few words together works well.</span>
         <Field label="Time zone" error={fields.timezone}><select value={f.timezone} onChange={(e) => setF({ ...f, timezone: e.target.value })}>{list.map((z) => <option key={z}>{z}</option>)}</select></Field>
-        <label className="row" style={{ border: 0, minHeight: 44 }}><input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} /><span>I agree to the <a href={`${SITE}/terms`} target="_blank" rel="noreferrer" style={{ textDecoration: 'underline' }}>Terms</a> and <a href={`${SITE}/privacy`} target="_blank" rel="noreferrer" style={{ textDecoration: 'underline' }}>Privacy Policy</a></span></label>
+        <label className="row" style={{ border: 0, minHeight: 44 }}><input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} /><span>I agree to the <a href={`https://vntrx-site.vercel.app/terms`} target="_blank" rel="noreferrer" style={{ textDecoration: 'underline' }}>Terms</a> and <a href={`https://vntrx-site.vercel.app/privacy`} target="_blank" rel="noreferrer" style={{ textDecoration: 'underline' }}>Privacy Policy</a></span></label>
         {err && <div role="alert" style={{ color: 'var(--accent-3)', fontWeight: 700 }}>{err}</div>}
         <Btn className="primary" type="submit" busy={busy} disabled={!agree || !f.organizationName.trim() || !f.adminName.trim() || !f.email || !f.password}><ArrowRight className="feather-ic" />Create organization</Btn>
         <p className="muted" style={{ textAlign: 'center' }}>Already have one? <Link to="/" style={{ fontWeight: 700, textDecoration: 'underline' }}>Sign in</Link></p>
