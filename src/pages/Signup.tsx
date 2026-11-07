@@ -5,7 +5,6 @@ import { ApiError } from '../lib/api';
 import { useAuth } from '../lib/auth';
 import { Btn, Field } from '../components/ui';
 
-const SITE = (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, '') ?? 'https://ventrix.app';
 const zones = (): string[] => {
   try { const z = (Intl as unknown as { supportedValuesOf?: (k: string) => string[] }).supportedValuesOf?.('timeZone'); if (z?.length) return z; } catch { /* fall through */ }
   return ['Africa/Lagos', 'Africa/Accra', 'Africa/Nairobi', 'Europe/London', 'UTC'];
