@@ -1,6 +1,6 @@
 # Ventrix web
 
-React + TypeScript + Vite front end for the Ventrix API, styled from `Ventrix_UI_kit.html` (Concrete and Night palettes).
+React + TypeScript + Vite front end for the Ventrix API, styled from `StoreKeeper_UI_kit.html` (Concrete and Night palettes).
 
     npm install
     npm run dev        # http://localhost:5173, proxies /v1 to http://localhost:3000 (override with API_PROXY)

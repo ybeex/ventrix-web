@@ -4,18 +4,29 @@ import { useSyncExternalStore } from 'react';
 import { ApiError, newKey, request } from './api';
 import { deviceId } from './auth';
 
-export interface Queued { clientGeneratedId: string; type: string; queuedAt: string; payload: Record<string, unknown>; label: string }
+export interface Queued { owner?: string; clientGeneratedId: string; type: string; queuedAt: string; payload: Record<string, unknown>; label: string }
 export interface SyncOutcome { applied: number; pending: number; problems: number; kept: number }
 const KEY = 'sk.queue';
 let mem: Queued[] = [];
 const subs = new Set<() => void>();
-let snapshot: Queued[] = read();
+// Every queued action is stamped with the user who took it. The queue outlives a sign-out (so an expired session never loses offline work),
+// which means on a shared tablet it must never be replayed — or shown — under a different user's token, or the audit trail would blame the wrong person.
+let owner: string | null = null;
+const STALE_MS = 7 * 24 * 3600_000; // other people's leftovers are dropped after a week
+let all: Queued[] = prune(read());
+let snapshot: Queued[] = [];
+const mine = () => all.filter((q) => q.owner === owner);
 
+function prune(q: Queued[]): Queued[] { const cut = Date.now() - STALE_MS; return q.filter((x) => x.owner && Date.parse(x.queuedAt) > cut); } // legacy un-owned entries cannot be attributed safely
 function read(): Queued[] { try { return JSON.parse(localStorage.getItem(KEY) ?? '[]'); } catch { return mem; } }
-function write(q: Queued[]) { mem = q; snapshot = q; try { localStorage.setItem(KEY, JSON.stringify(q)); } catch { /* memory only */ } subs.forEach((f) => f()); }
+function commit() { mem = all; snapshot = mine(); try { localStorage.setItem(KEY, JSON.stringify(all)); } catch { /* memory only */ } subs.forEach((f) => f()); }
+/** Called by the auth layer whenever the signed-in user changes (null when signed out). */
+export function setQueueOwner(id: string | null) { owner = id; all = prune(all); snapshot = mine(); subs.forEach((f) => f()); }
 
-export const enqueue = (type: string, payload: Record<string, unknown>, label: string) =>
-  write([...snapshot, { clientGeneratedId: newKey(), type, queuedAt: new Date().toISOString(), payload, label }]);
+export const enqueue = (type: string, payload: Record<string, unknown>, label: string) => {
+  if (!owner) return; // nobody is signed in: refuse rather than queue an unattributable action
+  all = [...all, { owner, clientGeneratedId: newKey(), type, queuedAt: new Date().toISOString(), payload, label }]; commit();
+};
 export const useQueue = () => useSyncExternalStore((f) => { subs.add(f); return () => subs.delete(f); }, () => snapshot);
 
 let flushing = false;
@@ -23,6 +34,7 @@ export async function flush(): Promise<SyncOutcome | null> {
   if (flushing || !snapshot.length || !navigator.onLine) return null;
   flushing = true;
   const sent = snapshot;
+  const sentOwner = owner;
   try {
     const { data } = await request<{ results: { clientGeneratedId: string; status: string }[] }>('POST', '/sync/batch', {
       body: { deviceId: deviceId().padEnd(4, '0'), actions: sent.map(({ clientGeneratedId, type, queuedAt, payload }) => ({ clientGeneratedId, type, queuedAt, payload })) },
@@ -36,7 +48,7 @@ export async function flush(): Promise<SyncOutcome | null> {
       else if (r.status === 'pending_approval') out.pending++;
       else out.problems++;
     }
-    write(snapshot.filter((q) => !done.has(q.clientGeneratedId)));
+    all = all.filter((q) => !(q.owner === sentOwner && done.has(q.clientGeneratedId))); commit();
     return out;
   } catch (e) {
     if (e instanceof ApiError && e.status === 401) throw e;

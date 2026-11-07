@@ -3,6 +3,7 @@ import { Layout } from './components/Layout';
 import { useAuth } from './lib/auth';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import { AcceptInvite, ForgotPassword, ResetPassword } from './pages/AccountLinks';
 import Labels from './pages/Labels';
 import Home from './pages/Home';
 import Outstanding from './pages/Outstanding';
@@ -29,7 +30,7 @@ import ActivityPage from './pages/Activity';
 export default function App() {
   const { me, can, booting } = useAuth();
   if (booting) return <div className="login" aria-busy="true"><div className="skel" style={{ width: 240, height: 24 }} /></div>;
-  if (!me) return <Routes><Route path="/signup" element={<Signup />} /><Route path="*" element={<Login />} /></Routes>;
+  if (!me) return <Routes><Route path="/signup" element={<Signup />} /><Route path="/accept-invite" element={<AcceptInvite />} /><Route path="/reset-password" element={<ResetPassword />} /><Route path="/forgot-password" element={<ForgotPassword />} /><Route path="*" element={<Login />} /></Routes>;
   return (
     <Routes>
       <Route element={<Layout />}>

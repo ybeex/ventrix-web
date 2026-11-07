@@ -31,6 +31,7 @@ export default function Login() {
         <label className="row" style={{ border: 0, minHeight: 44 }}><input type="checkbox" checked={trust} onChange={(e) => setTrust(e.target.checked)} /><span>This is a shared store tablet<br /><span className="muted" style={{ fontSize: 13 }}>Supervisors and admins only. Staff then switch in with a PIN.</span></span></label>
         {err && <div role="alert" style={{ color: 'var(--accent-3)', fontWeight: 700 }}>{err}</div>}
         <Btn className="primary" type="submit" busy={busy}><LogIn className="feather-ic" />Sign in</Btn>
+        <p className="muted" style={{ textAlign: 'center' }}><Link to="/forgot-password" style={{ textDecoration: 'underline' }}>Forgot your password?</Link></p>
         <p className="muted" style={{ textAlign: 'center' }}>New here? <Link to="/signup" style={{ fontWeight: 700, textDecoration: 'underline' }}>Create your organization</Link></p>
       </form>
     </div>
