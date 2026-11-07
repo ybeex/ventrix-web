@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { get, getToken, post, setToken, setUnauthorizedHandler, request } from './api';
 import type { Me, Role } from './types';
 import { clearSnapshot } from './snapshot';
+import { setQueueOwner } from './offline';
 
 interface Ctx { me: Me | null; register: (f: { organizationName: string; adminName: string; email: string; password: string; timezone: string }) => Promise<{ token: string; slug: string; organization: string }>; adopt: (token: string) => Promise<void>; login: (f: { orgSlug: string; email: string; password: string; trustDevice?: boolean }) => Promise<void>; shared: boolean; switched: boolean; switchTo: (userId: string, pin: string) => Promise<void>; switchBack: () => Promise<void>; setPin: (password: string, pin: string) => Promise<void>; logout: () => Promise<void>; can: (min: Role) => boolean; expired: boolean; booting: boolean; refreshMe: () => Promise<void> }
 const AuthCtx = createContext<Ctx>(null!);
@@ -26,6 +27,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const qc = useQueryClient();
 
   const clear = useCallback(() => { void clearSnapshot(); dropSession(); setToken(null); setMe(null); setHome(null); qc.clear(); }, [qc]);
+  // The offline queue is bound to whoever is signed in (see offline.ts): a different user never sees or replays someone else's queued actions.
+  useEffect(() => { setQueueOwner(me?.id ?? null); }, [me?.id]);
   useEffect(() => setUnauthorizedHandler(() => { clear(); setExpired(true); }), [clear]);
 
   const login: Ctx['login'] = async (f) => {
